@@ -1,34 +1,24 @@
-
+import math
 def num_divisors(n):
-	if n%2==0: n=n/2
-	divisors=1
 	count=0
-	while n%2==0:
-		count+=1
-		n=n/2
-	divisors=divisors*(count+1)
-	p=3
+	for i in range(1,int(math.ceil(math.sqrt(n)))):
+		if n%i == 0:
+			if n/i == i:
+				count += 1
+			else:
+				count += 2
+	return count
+
+for i in range(1,41041):
+	val = num_divisors(i*(i+1)/2)
 	
+t = int(input())
+for i in range(0,t):
+	n = int(input())
+	init = 1
+	for j in range(1,41041):
+		val = j*(j+1)/2
+		if num_divisors(val) > n:
+			print(val)
+			break
 	
-	while n!=1:
-		count=0
-		while n%p==0:
-			count+=1
-			n=n/p
-		divisors=divisors*(count+1)
-		p+=2
-	return divisors
-
-
-def triangular_index(factor_limit):
-	n=1
-	lnum,rnum=num_divisors(n),num_divisors(n+1)
-	while lnum*rnum < 500:
-		n+=1
-		lnum,rnum=rnum,num_divisors(n+1)
-	return n
-
-
-index=triangular_index(500)
-triangular=index*(index+1)/2
-print ("result is %d" % triangular)
