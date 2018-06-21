@@ -1,3 +1,5 @@
+# https://en.wikipedia.org/wiki/Modular_exponentiation
+
 import time
 
 cycles = 0
@@ -15,26 +17,26 @@ def check_co_prime(n):
 
 
 
+if __name__=='__main__':
+	start = time.time()
+	longest = [0]*10001
+	for i in range(3,10001):
+		
+		if check_co_prime(i) and i%2!=0 and i%5!=0:
+			base = 10
+			k = 1
+			while True:
+				if pow(base,k,i) == 1:
+					break			
+				k = k + 1
+			
+			if k > cycles:
+				cycles = k
+				number = i
+		longest[i] = number
+	end = time.time()
+	t = int(input())
+	for i in range(0,t):
+		n = int(input())
+		print(longest[n])
 
-start = time.time()
-for i in range(3,1001):
-	
-	if check_co_prime(i) and i%2!=0 and i%5!=0:
-		"""print("{0} is co-prime to 10\n".format(i))"""
-		base = 10
-		k = 1
-		while True:
-			if (base-1) % i == 0:
-				break
-			base*=10
-			"""print("base = {0}\n".format(base))"""
-			k = k + 1
-		"""print("k = {0}".format(k))
-		print("cycles = {0}".format(cycles))
-		raw_input()"""
-		if k > cycles:
-			cycles = k
-			number = i
-end = time.time()			
-print("cycles = {0}, number = {1}\n".format(cycles,number))
-print("calculated in {0} seconds\n".format(end-start))

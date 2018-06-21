@@ -64,11 +64,7 @@ void sum(vector<char> & a,vector<char> & b,vector<char> & result){
 		result[i] = revert_result[k];
 		i++;
 	}
-	/*cout<<"result"<<endl;
-	print_vector(result);
-	cin.get();*/
 	
-	//cout<<"sizes: "<<first_size<<" , "<<second_size<<endl;
 }
 int main()
 {
@@ -84,18 +80,27 @@ int main()
 	
 	depot.push_back(first);
 	depot.push_back(second);
-	while(true)
+	vector<int> unique_indices(5001,0);
+	int unique_indice = 2;
+	while(unique_indice<=5000)
 	{
 		vector<char> result;
 		size = depot.size();
-		//cout<<"size : "<<size<<endl;
 		sum(depot[size-2],depot[size-1],result);
 		depot.push_back(result);
 		i++;
-		if(result.size()==1000)
-			break;
+		if(result.size()==unique_indice){
+			unique_indices[unique_indice] = i;
+			unique_indice++;
+		}
 	}
-	cout<<"index "<<i<<" is the first that has 3 digits in it"<<endl;
+	int t;
+	cin>>t;
+	for(int i=0;i<t;i++){
+		int n;
+		cin>>n;
+		cout<<unique_indices[n]<<endl;
+	}
 	
 	return 0;	
 }
