@@ -5,65 +5,61 @@
 */
 #include <iostream>
 #include <cmath>
-bool check_abundant_sums(int sum);
-bool check_additive_abundance(int x);
+#include <ctime>
+#define N 28124
+int sum_proper_divisors(int x);
+
 int main()
 {
-	long long int whole_sum = 0;
-	int *non_abundant_sums,*abundant_sums;
-	non_abundant_sums = new int[28123];
-	//abundant_sums = new int[1000];
-	int counter = 0/*,abundant_counter=0*/;
-	for(int a=1;a<24;a++)
-		non_abundant_sums[counter++] = a;
-	for(int i=24;i < 28123;i++)
-	{
-		std::cout<<"i : "<<i<<std::endl;
-		if(!check_abundant_sums(i))
-			non_abundant_sums[counter++] = i;
-		/*else
-			abundant_sums[abundant_counter++] = i;*/
-	}
 	
-	for(int z = 0;z<counter;z++)
-		whole_sum+=non_abundant_sums[z];
+	int *proper_sums;
+	proper_sums = new int[N];
+	int counter = 0;
+	double diff;
+	clock_t start, end;
+    start = clock();
+	for(int i=0;i<N;i++)
+		proper_sums[i] = sum_proper_divisors(i);
 
-	std::cout<<"result = "<<whole_sum<<std::endl;
-	/*std::cout<<"abundant sums"<<std::endl;
-	for(int y = 0;y<abundant_counter;y++)
-		std::cout<<abundant_sums[y]<<std::endl;*/
-}
-
-
-
-
-bool check_abundant_sums(int sum){
-	
-	for(int i = 12;i<sum;i++)
-	{
-		for(int j = 12;j<sum;j++)
-		{
-			if(i+j==sum)
-			{
-				if(check_additive_abundance(i) && check_additive_abundance(j))
-					return true;
+	end = clock();
+	diff = ((double) (end - start)) / CLOCKS_PER_SEC;
+	int t;
+	std::cin>>t;
+	for(int i=0;i<t;i++){
+		int n;
+		std::cin>>n;
+		if(n>=28123){
+			std::cout<<"YES"<<std::endl;
+			continue;
+		}
+		bool f = false;
+		for(int j=12;j<=n/2;j++){
+			if(proper_sums[j]>j && proper_sums[n-j]>n-j){
+				std::cout<<"YES"<<std::endl;
+				f = true;
+				break;
 			}
 		}
+		if(!f)
+			std::cout<<"NO"<<std::endl;
 	}
-	return false;
+	//std::cout<<"Operation took "<<diff<<" seconds"<<std::endl;
+	delete proper_sums;
+	
+	return 0;
 }
 
+int sum_proper_divisors(int x){
 
-bool check_additive_abundance(int x){
 	int sum = 0;
-	for(int i = 1;i<x;i++)
+	for(int i = 2;i<=sqrt(x);i++)
 	{
 		if(x%i==0)
-			sum+=i;
+			if(i==(x/i))
+				sum+=i;
+			else
+				sum+=i+(x/i);
 	}
-	if(sum>x)
-		return true;
-	else
-		return false;
-
+	return sum+1;
 }
+

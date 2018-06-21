@@ -1,21 +1,27 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <time.h>
+#include <math.h>
+
+#define ABOVE 100001
 int sum_proper_divisors(int x);
 bool check_amicability(int y,int x);
 bool already_in_array(int a,int *arr,int c);
 int main()
 {
-	int i=2;
-	
-	int *amicables;
-	amicables = (int *) malloc(20);	
-	int counter = 0;
-	int whole_sum = 0;
-	for(; i <= 10000; i++)
+
+	int t;
+	double diff;
+	scanf("%d",&t);
+    clock_t start, end;
+    start = clock();
+    int amicables[26];
+	int i=2,counter = 0;
+    for(; i < ABOVE; i++)
 	{
 		int result = sum_proper_divisors(i);
-		if(check_amicability(result,i))
+		if(i!= result && check_amicability(result,i))
 		{
 			if(!already_in_array(i,amicables,counter))
 				*(amicables + counter++) = i;
@@ -23,23 +29,41 @@ int main()
 				*(amicables + counter++) = result;
 		}	 
 	}
-	for(int j = 0; j<counter;j++)
-	{
-		whole_sum += amicables[j];
+	//printf("Total amicable num: %d\n",counter);
+	/*for(int i=0;i<counter;i++)
+		printf("Amicable[%d] = %d\n",i,amicables[i]);*/
+	for(int k=0;k<t;k++){
+		int n;
+		scanf("%d",&n);
+		int whole_sum = 0;
+		for(int j = 0; j<counter;j++){
+			if(amicables[j]>=n)
+				continue;
+			else
+				whole_sum += amicables[j];
+		}
+		printf("%d\n",whole_sum);	
 	}
-	printf("total sum = %d\n",whole_sum);
-	printf("amibacle number count = %d\n",counter);
+	end = clock();
+	diff = ((double) (end - start)) / CLOCKS_PER_SEC;
+
+	//printf("\nOperation took %f seconds\n", diff);
+
+	return 0;
 }
 
 int sum_proper_divisors(int x){
 
 	int sum = 0;
-	for(int i = 1;i<x;i++)
+	for(int i = 2;i<=sqrt(x);i++)
 	{
 		if(x%i==0)
-			sum+=i;
+			if(i==(x/i))
+				sum+=i;
+			else
+				sum+=i+(x/i);
 	}
-	return sum;
+	return sum+1;
 }
 
 bool check_amicability(int y,int x){
