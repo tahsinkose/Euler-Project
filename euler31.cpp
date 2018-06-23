@@ -1,44 +1,30 @@
 #include <iostream> 
-int Coins[8] ={200,100,50,20,10,5,2,1}; 
+int Coins[8] ={1,2,5,10,20,50,100,200}; 
+#define VALUE 100000
+const long mod = 1e9 + 7;
 
-#define VALUE 200
-
-int combinations = 0;
-int ways = 0;
-
-void recurse(int sum, int ind){
-	  
-		if(sum<Coins[ind]){
-			return;
-		}
-		//std::cout<<"Used coin : "<<Coins[ind]<<std::endl;
-		int val = sum - Coins[ind];
-		//std::cout<<"Remained value: "<<val<<std::endl;
-		if(val==0){
-			combinations++;
-		//	std::cout<<"Found!"<<std::endl;
-			//std::cin.get();
-			return;
-		}
-		else{
-			if(val>=Coins[ind]){
-				recurse(val,ind);
-				if(ind!=7)
-					recurse(val,ind+1);
-			}
-			else if(val<=Coins[ind])
-				recurse(val,ind+1);//For current iteration
-				for(int j=ind+2;j<8;j++)
-					recurse(val,j);
-		}
-}
-
+using namespace std;
 int main(){
-	for(int i=0;i<8;i++){
-		if(VALUE<Coins[i])
-			continue;
-		recurse(VALUE,i);
+	int dp[9][VALUE+1];
+	for(int i=1;i<9;i++)
+		dp[i][0] = 1;
+	for(int i=0;i<=VALUE;i++)
+		dp[0][i] = 0;
+	for(int i=1;i<=8;i++){
+		for(int j=1;j<=VALUE;j++){
+			if(Coins[i-1]>j)
+				dp[i][j] = dp[i-1][j];
+			else
+				dp[i][j] = (dp[i-1][j] + dp[i][j-Coins[i-1]])%mod;
+		}
 	}
-	std::cout<<"combs: "<<combinations<<std::endl;
+	int t;
+	cin>>t;
+	for(int i=0;i<t;i++)
+	{
+		int n;
+		cin>>n;
+		cout<<dp[8][n]<<endl;
+	}	
 	return 0;
 }

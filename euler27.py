@@ -31,11 +31,12 @@ def PrimeRange(start, stop):
 
 if __name__ == '__main__':
 	start = time.time()
-	primes = PrimeRange(2,1000)
+	n = int(input())
+	primes = PrimeRange(2,n)
 	maxN = 0
 	maxA = None
-        maxB = None
-	for a in xrange(-1000,1001):
+	maxB = None
+	for a in xrange(-n,n+1):
 		for b in primes:
 			if b <= -(1600 + 40*a):
 				continue
@@ -66,4 +67,4 @@ if __name__ == '__main__':
 			
 
 	elapsed = time.time() - start
-	print "maxN : " + str(maxN) +" a = "+ str(maxA) + " b = " + str(maxB) + ", product = %s in %s seconds" %(maxA*maxB,elapsed)
+	print maxA,maxB
