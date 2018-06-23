@@ -12,7 +12,7 @@ int main(){
     primes[0] = 2;
     primes[1] = 3;
     int top = 1;
-    for(long long int i=5;i<=120000;i+=2){
+    for(long long int i=5;i<=150000;i+=2){
         for(int j=0;j<=top;j++){
             if(i%primes[j]==0)
                 break;

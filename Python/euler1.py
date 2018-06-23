@@ -17,3 +17,4 @@ for a0 in xrange(t):
 	
 	result -= ff_terms*(n+15-(n%15))/2
 	print result
+
